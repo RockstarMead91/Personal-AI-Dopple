@@ -1,41 +1,129 @@
-import React from "react";
-import { Card, CardContent } from "@/components/ui/card";
-import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
-import { Textarea } from "@/components/ui/textarea";
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>AI Dopple</title>
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    }
 
-export default function Home() {
-  return (
-    <div className="min-h-screen bg-gradient-to-br from-slate-900 to-slate-800 text-white p-6">
-      <header className="mb-8">
-        <h1 className="text-4xl font-bold mb-2">AI Dopple</h1>
-        <p className="text-lg text-slate-300">
-          Your evolving AI mirror for journaling and creative support.
-        </p>
-      </header>
+    body {
+      background: linear-gradient(to bottom right, #cce6ff, #e0f7ff);
+      color: #222;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
 
-      <main className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-        {/* Journal Section */}
-        <Card className="col-span-2">
-          <CardContent className="p-4">
-            <h2 className="text-2xl font-semibold mb-4">Journal</h2>
-            <Textarea placeholder="What's on your mind today?" className="mb-4" rows={8} />
-            <Button className="w-full">Save Entry</Button>
-          </CardContent>
-        </Card>
+    header {
+      background-color: #111;
+      color: white;
+      padding: 1rem 2rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
 
-        {/* Creative Toolbox */}
-        <Card>
-          <CardContent className="p-4">
-            <h2 className="text-2xl font-semibold mb-4">Creative Tools</h2>
-            <div className="space-y-2">
-              <Button variant="secondary" className="w-full">🎵 Music Helper</Button>
-              <Button variant="secondary" className="w-full">✍️ Literature Assistant</Button>
-              <Button variant="secondary" className="w-full">🎨 Art Muse</Button>
-            </div>
-          </CardContent>
-        </Card>
-      </main>
+    header h1 {
+      font-size: 1.8rem;
+    }
+
+    nav {
+      display: flex;
+      gap: 1rem;
+    }
+
+    nav button {
+      background: none;
+      border: none;
+      color: white;
+      font-size: 1rem;
+      cursor: pointer;
+      padding: 0.5rem 1rem;
+      border-radius: 5px;
+      transition: background 0.2s;
+    }
+
+    nav button:hover {
+      background: rgba(255, 255, 255, 0.1);
+    }
+
+    main {
+      flex: 1;
+      padding: 2rem;
+    }
+
+    .tab-content {
+      display: none;
+      animation: fadeIn 0.3s ease-in-out;
+    }
+
+    .tab-content.active {
+      display: block;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(10px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>AI Dopple</h1>
+    <nav>
+      <button onclick="showTab('home')">Home</button>
+      <button onclick="showTab('journals')">Journals</button>
+      <button onclick="showTab('arts')">Arts</button>
+      <button onclick="showTab('learning')">Learning</button>
+      <button onclick="showTab('others')">Others</button>
+      <button onclick="showTab('settings')">Settings</button>
+    </nav>
+  </header>
+
+  <main>
+    <div id="home" class="tab-content active">
+      <h2>Welcome to AI Dopple</h2>
+      <p>This is your personal creative assistant. Use the tabs above to explore features.</p>
     </div>
-  );
-}
+
+    <div id="journals" class="tab-content">
+      <h2>Journals</h2>
+      <textarea rows="10" style="width: 100%; margin-top: 1rem;" placeholder="Write your thoughts here..."></textarea>
+    </div>
+
+    <div id="arts" class="tab-content">
+      <h2>Art Tools</h2>
+      <p>Use AI tools to generate visual inspiration and concepts.</p>
+    </div>
+
+    <div id="learning" class="tab-content">
+      <h2>Learning Resources</h2>
+      <p>Here you'll find prompts, tutorials, and AI-curated lessons.</p>
+    </div>
+
+    <div id="others" class="tab-content">
+      <h2>Other Tools</h2>
+      <p>Extra utilities like idea generators and collaboration features.</p>
+    </div>
+
+    <div id="settings" class="tab-content">
+      <h2>Settings</h2>
+      <p>Log in, manage preferences, or create your AI Dopple account.</p>
+    </div>
+  </main>
+
+  <script>
+    function showTab(tabId) {
+      const tabs = document.querySelectorAll('.tab-content');
+      tabs.forEach(tab => tab.classList.remove('active'));
+      document.getElementById(tabId).classList.add('active');
+    }
+  </script>
+</body>
+</html>
