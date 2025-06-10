@@ -1,23 +1,15 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
+  <meta charset="UTF-8"/>
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>AI Dopple</title>
   <style>
-    * {
-      box-sizing: border-box;
-      margin: 0;
-      padding: 0;
-      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    }
-
     body {
+      font-family: 'Segoe UI', sans-serif;
+      margin: 0;
       background: linear-gradient(to bottom right, #cce6ff, #e0f7ff);
       color: #222;
-      min-height: 100vh;
-      display: flex;
-      flex-direction: column;
     }
 
     header {
@@ -29,10 +21,6 @@
       align-items: center;
     }
 
-    header h1 {
-      font-size: 1.8rem;
-    }
-
     nav {
       display: flex;
       gap: 1rem;
@@ -42,88 +30,207 @@
       background: none;
       border: none;
       color: white;
-      font-size: 1rem;
       cursor: pointer;
+      font-size: 1rem;
       padding: 0.5rem 1rem;
-      border-radius: 5px;
-      transition: background 0.2s;
     }
 
     nav button:hover {
-      background: rgba(255, 255, 255, 0.1);
+      background-color: rgba(255, 255, 255, 0.1);
+      border-radius: 5px;
     }
 
     main {
-      flex: 1;
       padding: 2rem;
     }
 
     .tab-content {
       display: none;
-      animation: fadeIn 0.3s ease-in-out;
     }
 
     .tab-content.active {
       display: block;
     }
 
-    @keyframes fadeIn {
-      from { opacity: 0; transform: translateY(10px); }
-      to { opacity: 1; transform: translateY(0); }
+    .chat-window {
+      background-color: white;
+      border-radius: 10px;
+      padding: 1rem;
+      box-shadow: 0 0 10px rgba(0,0,0,0.1);
+      max-width: 800px;
+      margin-bottom: 2rem;
+    }
+
+    .chat-messages {
+      max-height: 300px;
+      overflow-y: auto;
+      margin-bottom: 1rem;
+    }
+
+    .chat-bubble {
+      padding: 0.6rem;
+      margin-bottom: 0.5rem;
+      border-radius: 10px;
+      max-width: 80%;
+    }
+
+    .user { background-color: #d0ebff; align-self: flex-end; }
+    .ai { background-color: #eaeaea; }
+
+    .chat-input {
+      display: flex;
+      gap: 0.5rem;
+    }
+
+    textarea {
+      width: 100%;
+      height: 60px;
+      padding: 0.5rem;
+      resize: none;
+    }
+
+    button.send {
+      padding: 0.5rem 1rem;
+      cursor: pointer;
+    }
+
+    .ai-info {
+      font-size: 0.9rem;
+      background: #eef;
+      padding: 1rem;
+      border-radius: 10px;
     }
   </style>
 </head>
 <body>
-  <header>
-    <h1>AI Dopple</h1>
-    <nav>
-      <button onclick="showTab('home')">Home</button>
-      <button onclick="showTab('journals')">Journals</button>
-      <button onclick="showTab('arts')">Arts</button>
-      <button onclick="showTab('learning')">Learning</button>
-      <button onclick="showTab('others')">Others</button>
-      <button onclick="showTab('settings')">Settings</button>
-    </nav>
-  </header>
+<header>
+  <h1>AI Dopple</h1>
+  <nav>
+    <button onclick="showTab('home')">Home</button>
+    <button onclick="showTab('journals')">Journals</button>
+    <button onclick="showTab('arts')">Arts</button>
+    <button onclick="showTab('learning')">Learning</button>
+    <button onclick="showTab('others')">Others</button>
+    <button onclick="showTab('settings')">Settings</button>
+  </nav>
+</header>
 
-  <main>
-    <div id="home" class="tab-content active">
-      <h2>Welcome to AI Dopple</h2>
-      <p>This is your personal creative assistant. Use the tabs above to explore features.</p>
+<main>
+  <!-- Home Tab with AI Chat -->
+  <div id="home" class="tab-content active">
+    <h2>Welcome to Your AI Dopple</h2>
+    <p>This AI learns from you and helps with your creativity.</p>
+
+    <div class="ai-info">
+      <strong>About Your Dopple:</strong>
+      <p>This AI reflects your personality and grows with you based on your journal, art, and conversations.</p>
     </div>
 
-    <div id="journals" class="tab-content">
-      <h2>Journals</h2>
-      <textarea rows="10" style="width: 100%; margin-top: 1rem;" placeholder="Write your thoughts here..."></textarea>
+    <div class="chat-window">
+      <div class="chat-messages" id="chatMessages"></div>
+      <div class="chat-input">
+        <textarea id="userInput" placeholder="Talk to your Dopple..."></textarea>
+        <button class="send" onclick="sendMessage()">Send</button>
+        <button onclick="startVoice()">🎙️</button>
+      </div>
     </div>
+  </div>
 
-    <div id="arts" class="tab-content">
-      <h2>Art Tools</h2>
-      <p>Use AI tools to generate visual inspiration and concepts.</p>
-    </div>
+  <!-- Other Tabs -->
+  <div id="journals" class="tab-content">
+    <h2>Journal</h2>
+    <textarea rows="10" style="width: 100%;" placeholder="Write your thoughts..."></textarea>
+  </div>
 
-    <div id="learning" class="tab-content">
-      <h2>Learning Resources</h2>
-      <p>Here you'll find prompts, tutorials, and AI-curated lessons.</p>
-    </div>
+  <div id="arts" class="tab-content">
+    <h2>Arts</h2>
+    <p>Coming soon: visual idea boards, color palettes, and more.</p>
+  </div>
 
-    <div id="others" class="tab-content">
-      <h2>Other Tools</h2>
-      <p>Extra utilities like idea generators and collaboration features.</p>
-    </div>
+  <div id="learning" class="tab-content">
+    <h2>Learning</h2>
+    <p>Coming soon: AI-guided creative exercises.</p>
+  </div>
 
-    <div id="settings" class="tab-content">
-      <h2>Settings</h2>
-      <p>Log in, manage preferences, or create your AI Dopple account.</p>
-    </div>
-  </main>
+  <div id="others" class="tab-content">
+    <h2>Others</h2>
+    <p>Coming soon: miscellaneous tools.</p>
+  </div>
 
-  <script>
-    function showTab(tabId) {
-      const tabs = document.querySelectorAll('.tab-content');
-      tabs.forEach(tab => tab.classList.remove('active'));
-      document.getElementById(tabId).classList.add('active');
-    }
-  </script>
+  <div id="settings" class="tab-content">
+    <h2>Settings</h2>
+    <p>Coming soon: account, login, preferences, and sync options.</p>
+  </div>
+</main>
+
+<script>
+  const apiKey = "YOUR_OPENAI_API_KEY"; // Replace with your real key
+
+  function showTab(id) {
+    document.querySelectorAll('.tab-content').forEach(tab => tab.classList.remove('active'));
+    document.getElementById(id).classList.add('active');
+  }
+
+  function appendMessage(text, sender = 'ai') {
+    const chat = document.getElementById('chatMessages');
+    const div = document.createElement('div');
+    div.className = 'chat-bubble ' + sender;
+    div.textContent = text;
+    chat.appendChild(div);
+    chat.scrollTop = chat.scrollHeight;
+  }
+
+  async function sendMessage() {
+    const input = document.getElementById('userInput');
+    const text = input.value.trim();
+    if (!text) return;
+
+    appendMessage(text, 'user');
+    input.value = '';
+
+    appendMessage('Typing...', 'ai');
+
+    const response = await fetch("https://api.openai.com/v1/chat/completions", {
+      method: "POST",
+      headers: {
+        "Authorization": `Bearer ${apiKey}`,
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify({
+        model: "gpt-4",
+        messages: [
+          { role: "system", content: "You are a digital twin AI called Dopple that mirrors the user’s personality and helps with creativity." },
+          { role: "user", content: text }
+        ]
+      })
+    });
+
+    const data = await response.json();
+    const aiText = data.choices[0].message.content.trim();
+
+    // remove 'Typing...' bubble
+    document.querySelectorAll('.chat-bubble.ai').forEach(b => {
+      if (b.textContent === 'Typing...') b.remove();
+    });
+
+    appendMessage(aiText, 'ai');
+  }
+
+  function startVoice() {
+    const recognition = new (window.SpeechRecognition || window.webkitSpeechRecognition)();
+    recognition.lang = 'en-US';
+    recognition.start();
+
+    recognition.onresult = function(event) {
+      const transcript = event.results[0][0].transcript;
+      document.getElementById('userInput').value = transcript;
+      sendMessage();
+    };
+
+    recognition.onerror = function(event) {
+      alert("Voice recognition error: " + event.error);
+    };
+  }
+</script>
 </body>
 </html>
