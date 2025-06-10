@@ -1,0 +1,41 @@
+import React from "react";
+import { Card, CardContent } from "@/components/ui/card";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { Textarea } from "@/components/ui/textarea";
+
+export default function Home() {
+  return (
+    <div className="min-h-screen bg-gradient-to-br from-slate-900 to-slate-800 text-white p-6">
+      <header className="mb-8">
+        <h1 className="text-4xl font-bold mb-2">AI Dopple</h1>
+        <p className="text-lg text-slate-300">
+          Your evolving AI mirror for journaling and creative support.
+        </p>
+      </header>
+
+      <main className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+        {/* Journal Section */}
+        <Card className="col-span-2">
+          <CardContent className="p-4">
+            <h2 className="text-2xl font-semibold mb-4">Journal</h2>
+            <Textarea placeholder="What's on your mind today?" className="mb-4" rows={8} />
+            <Button className="w-full">Save Entry</Button>
+          </CardContent>
+        </Card>
+
+        {/* Creative Toolbox */}
+        <Card>
+          <CardContent className="p-4">
+            <h2 className="text-2xl font-semibold mb-4">Creative Tools</h2>
+            <div className="space-y-2">
+              <Button variant="secondary" className="w-full">🎵 Music Helper</Button>
+              <Button variant="secondary" className="w-full">✍️ Literature Assistant</Button>
+              <Button variant="secondary" className="w-full">🎨 Art Muse</Button>
+            </div>
+          </CardContent>
+        </Card>
+      </main>
+    </div>
+  );
+}
